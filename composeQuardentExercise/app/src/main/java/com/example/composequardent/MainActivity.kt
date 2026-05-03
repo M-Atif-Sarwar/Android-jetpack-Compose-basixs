@@ -28,10 +28,10 @@ import com.example.composequardent.ui.theme.ComposeQuardentTheme
 val itemsData=listOf(
     ContentData(title="Text composable",
         description = "Displays text and follows the recommended Material Design guidelines.",
-        color= Color(0xFFEADDF)
+        color= Color(0xFFEADDFF)
     ),
     ContentData(
-        title="Creates a composable that lays out and draws a given Painter class object",
+        title="Image Composable",
         description = "Creates a composable that lays out and draws a given Painter class object",
         color = Color(0xFFD0BCFF)
     ),
@@ -92,7 +92,6 @@ fun MainContainer(content:List<ContentData>, modifier:Modifier=Modifier){
     val pairedItem=content.chunked(2)
     Column(
         modifier= Modifier
-            .padding(16.dp)
             .fillMaxSize()
 
     ) {
@@ -112,6 +111,8 @@ fun MainContainer(content:List<ContentData>, modifier:Modifier=Modifier){
                 .weight(1f)
                 .fillMaxWidth()
 
+
+
         ){
             item.forEach {
                 /*each of content section weight take
@@ -124,6 +125,7 @@ fun MainContainer(content:List<ContentData>, modifier:Modifier=Modifier){
                         .weight(1f)
                         .fillMaxHeight()
                         .background(it.color)
+                        .padding(16.dp)
                 )
             }
         }
