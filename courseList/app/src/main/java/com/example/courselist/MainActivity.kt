@@ -4,12 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -34,11 +41,20 @@ import com.example.courselist.model.TopicData
 import com.example.courselist.ui.theme.AppTheme
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.icons.filled.ExpandCircleDown
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 
 class MainActivity : ComponentActivity() {
@@ -68,8 +84,43 @@ fun CourseTopBar(modifier: Modifier=Modifier){
 }
 
 @Composable
+fun CourseBody(modifier: Modifier=Modifier){
+    Column(modifier=modifier) {
+        Text(
+            text = "About" ,
+            style = MaterialTheme.typography.labelSmall
+        )
+        Text(
+            text = "This is the course",
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
+}
+@Composable
 fun CourseItem(courseList: TopicData, modifier: Modifier=Modifier){
-    Card {
+    var expanded by remember { mutableStateOf(false) }
+
+    // animate color
+    val color by animateColorAsState(
+        targetValue = if(expanded){
+            MaterialTheme.colorScheme.tertiaryContainer
+        }
+        else {
+            MaterialTheme.colorScheme.primaryContainer
+        }
+    )
+        Card (
+            colors = CardDefaults.cardColors(
+                containerColor = color
+            ),
+        modifier= Modifier.animateContentSize(
+            animationSpec = spring(
+                dampingRatio= Spring.DampingRatioNoBouncy,
+                stiffness = Spring.StiffnessMedium
+            )
+        )
+
+    ){
         Row{
             Image(
                 painter = painterResource(courseList.courseImage),
@@ -101,7 +152,22 @@ fun CourseItem(courseList: TopicData, modifier: Modifier=Modifier){
 
                 }
 
+             if(expanded){
+                 CourseBody()
+             }
+            }
 
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = {expanded = !expanded},
+
+
+            ) {
+                Icon(
+                    imageVector = if(expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.secondary
+                )
             }
         }
     }
@@ -113,6 +179,8 @@ fun CourseItem(courseList: TopicData, modifier: Modifier=Modifier){
 @Composable
 fun CourseListApp(modifier: Modifier=Modifier){
     val topic= DataSource.topics
+
+
     Scaffold(
         topBar = {
             CourseTopBar()
