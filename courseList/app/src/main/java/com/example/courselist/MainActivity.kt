@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -33,6 +34,9 @@ import com.example.courselist.model.TopicData
 import com.example.courselist.ui.theme.AppTheme
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 
@@ -48,6 +52,19 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CourseTopBar(modifier: Modifier=Modifier){
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.displayLarge
+            )
+        },
+        modifier=modifier
+    )
 }
 
 @Composable
@@ -96,24 +113,29 @@ fun CourseItem(courseList: TopicData, modifier: Modifier=Modifier){
 @Composable
 fun CourseListApp(modifier: Modifier=Modifier){
     val topic= DataSource.topics
+    Scaffold(
+        topBar = {
+            CourseTopBar()
+        },
+    ) { innerpadding ->
+        // creating grid type list
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            state = rememberLazyGridState(),
+            modifier = Modifier.fillMaxSize()
+                .padding(innerpadding)
+                .padding(vertical = 16.dp, horizontal = 8.dp)
 
-    // creating grid type list
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        state = rememberLazyGridState(),
-        modifier=Modifier.fillMaxSize()
-            .safeDrawingPadding()
-            .padding(vertical = 16.dp, horizontal = 8.dp)
-    ) {
-        // course topic is the data
-        items(topic){courseTopic->
-           CourseItem(courseTopic)
+        ) {
+            // course topic is the data
+            items(topic) { courseTopic ->
+                CourseItem(courseTopic)
+            }
         }
+
     }
-
-
 }
 @Preview(showBackground = true)
 @Composable
