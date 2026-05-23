@@ -30,17 +30,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.courselist.dataSource.DataSource
 import com.example.courselist.model.TopicData
-import com.example.courselist.ui.theme.CourseListTheme
+import com.example.courselist.ui.theme.AppTheme
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CourseListApp()
+            AppTheme{
+                CourseListApp()
+            }
+
         }
     }
 }
@@ -54,7 +59,9 @@ fun CourseItem(courseList: TopicData, modifier: Modifier=Modifier){
                 contentDescription = "courseImage",
                 modifier= Modifier
                     .size(68.dp)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clip(MaterialTheme.shapes.small),
+
                 contentScale = ContentScale.Crop
             )
 
@@ -72,7 +79,7 @@ fun CourseItem(courseList: TopicData, modifier: Modifier=Modifier){
 
                     Text(
                         text = courseList.numberOfSeats.toString(),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelSmall,
                     )
 
                 }
@@ -111,7 +118,7 @@ fun CourseListApp(modifier: Modifier=Modifier){
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    CourseListTheme {
+    AppTheme(darkTheme = true) {
         CourseListApp()
     }
 }
