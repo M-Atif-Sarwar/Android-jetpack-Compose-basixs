@@ -1,5 +1,7 @@
 package com.example.cupcake
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -37,6 +39,23 @@ private fun cancelOrderAndNavigateToStart(
 ) {
     viewModel.resetOrder()
     navController.popBackStack(CupCakeScreen.Start.name, inclusive = false)
+}
+
+private fun ShareOrder(
+    context: Context,
+    subject:String,
+    summary:String,
+    ) {
+        val intent= Intent().apply {
+            action= Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, summary)
+            type="text/plain"
+        }
+      val shareIntent = Intent.createChooser(intent, context.getString(R.string.new_cupcake_order))
+
+     context.startActivity(shareIntent)
+
 }
 @Composable
 fun CupCakeApp(){
@@ -95,13 +114,14 @@ fun CupCakeApp(){
             }// end compoable route
 
             composable(route = CupCakeScreen.Summary.name) {
+                val context=LocalContext.current
                 OrderSummaryScreen(
                     orderUiState = cupcakestate,
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(CupCakeModel, navController)
                     },
                     onSendButtonClicked = { subject: String, summary: String ->
-
+                         ShareOrder(context,subject,summary)
                     },
                     modifier = Modifier.fillMaxHeight()
                 )

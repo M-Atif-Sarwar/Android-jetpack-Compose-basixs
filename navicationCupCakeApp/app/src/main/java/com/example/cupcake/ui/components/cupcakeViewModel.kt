@@ -26,7 +26,11 @@ class CupCakeViewModel: ViewModel(){
 
     /** Additional cost for same day pickup of an order */
     private val PRICE_FOR_SAME_DAY_PICKUP = 3.00
-  private var _orderUiState = MutableStateFlow(OrderStates())
+  private var _orderUiState = MutableStateFlow(OrderStates(
+
+      pickupOptions = pickUpOption()
+
+  ))
   val cupcakesate=_orderUiState.asStateFlow()
 
     fun updateQuantity(quantity: Int){
