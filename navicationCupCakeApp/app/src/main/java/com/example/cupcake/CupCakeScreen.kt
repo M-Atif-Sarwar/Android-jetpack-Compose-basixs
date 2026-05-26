@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -29,6 +30,14 @@ enum class CupCakeScreen(){
     Summary
 }
 
+
+private fun cancelOrderAndNavigateToStart(
+    viewModel: CupCakeViewModel,
+    navController: NavHostController
+) {
+    viewModel.resetOrder()
+    navController.popBackStack(CupCakeScreen.Start.name, inclusive = false)
+}
 @Composable
 fun CupCakeApp(){
     val navController=rememberNavController()
@@ -64,6 +73,9 @@ fun CupCakeApp(){
                     options = DataSource.flavors.map { id -> context.resources.getString(id) },
                     onSelectionChanged = {item -> CupCakeModel.updateFlavor(item)},
                     onNextButtonClicked = { navController.navigate(CupCakeScreen.Pickup.name) },
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(CupCakeModel, navController)
+                    },
                     modifier = Modifier.fillMaxHeight()
 
                 )
@@ -73,6 +85,9 @@ fun CupCakeApp(){
                 SelectOptionScreen(
                     subtotal = cupcakestate.price,
                     onNextButtonClicked = { navController.navigate(CupCakeScreen.Summary.name) },
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(CupCakeModel, navController)
+                    },
                     options = cupcakestate.pickupOptions,
                     onSelectionChanged = { date -> CupCakeModel.updatePickUpDate(date) },
                     modifier = Modifier.fillMaxHeight()
@@ -82,7 +97,9 @@ fun CupCakeApp(){
             composable(route = CupCakeScreen.Summary.name) {
                 OrderSummaryScreen(
                     orderUiState = cupcakestate,
-                    onCancelButtonClicked = {},
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(CupCakeModel, navController)
+                    },
                     onSendButtonClicked = { subject: String, summary: String ->
 
                     },

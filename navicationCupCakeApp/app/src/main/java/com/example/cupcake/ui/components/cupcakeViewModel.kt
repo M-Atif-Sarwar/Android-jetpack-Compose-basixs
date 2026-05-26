@@ -51,7 +51,9 @@ class CupCakeViewModel: ViewModel(){
         }
     }
 
-
+    fun resetOrder() {
+        _orderUiState.value = OrderStates(pickupOptions = pickUpOption())
+    }
 
     private fun pickUpOption():List<String>{
         val dateOption=mutableListOf<String>()
