@@ -35,14 +35,14 @@ class CupCakeViewModel: ViewModel(){
         }
     }
 
-    private fun updateFlavor(desiredFlavor: String){
+     fun updateFlavor(desiredFlavor: String){
         _orderUiState.update { currentState ->
             currentState.copy(flavor = desiredFlavor)
         }
     }
 
 
-    private fun updatePickUpDate(pickUpDate: String){
+    fun updatePickUpDate(pickUpDate: String){
         _orderUiState.update { currentState ->
             currentState.copy(
                 date=pickUpDate,

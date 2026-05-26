@@ -1,5 +1,6 @@
 package com.example.cupcake
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -7,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -14,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cupcake.data.DataSource
 import com.example.cupcake.ui.components.CupCakeViewModel
+import com.example.cupcake.ui.components.SelectOptionScreen
 import com.example.cupcake.ui.components.StartOrderScreen
 import com.example.cupcake.ui.components.quantityOptions
 
@@ -44,11 +48,25 @@ fun CupCakeApp(){
                         navController.navigate(CupCakeScreen.Flavor.name)
                     },
                     modifier= Modifier.fillMaxSize()
-                        .padding(R.dimen.padding_medium)
+                        .padding(dimensionResource(R.dimen.padding_medium)
 
                 )
 
-            }
+                )
+            } // end of compose Route
+
+            composable(route =CupCakeScreen.Flavor.name) {
+                val context= LocalContext.current
+                SelectOptionScreen(
+                    subtotal = cupcakestate.price,
+                    // context.resources.getString(id) convert id back to actual string
+                    options = DataSource.flavors.map { id -> context.resources.getString(id) },
+                    onSelectionChanged = {item -> CupCakeModel.updateFlavor(item)},
+                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
+                    modifier = Modifier.fillMaxHeight()
+
+                )
+            }// edn of compose route
         }
     }
 }
