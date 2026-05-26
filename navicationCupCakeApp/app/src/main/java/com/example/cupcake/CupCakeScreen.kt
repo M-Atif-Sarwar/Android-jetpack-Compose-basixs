@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cupcake.data.DataSource
 import com.example.cupcake.ui.components.CupCakeViewModel
+import com.example.cupcake.ui.components.OrderSummaryScreen
 import com.example.cupcake.ui.components.SelectOptionScreen
 import com.example.cupcake.ui.components.StartOrderScreen
 import com.example.cupcake.ui.components.quantityOptions
@@ -62,11 +63,32 @@ fun CupCakeApp(){
                     // context.resources.getString(id) convert id back to actual string
                     options = DataSource.flavors.map { id -> context.resources.getString(id) },
                     onSelectionChanged = {item -> CupCakeModel.updateFlavor(item)},
-                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
+                    onNextButtonClicked = { navController.navigate(CupCakeScreen.Pickup.name) },
                     modifier = Modifier.fillMaxHeight()
 
                 )
             }// edn of compose route
+
+            composable(route = CupCakeScreen.Pickup.name) {
+                SelectOptionScreen(
+                    subtotal = cupcakestate.price,
+                    onNextButtonClicked = { navController.navigate(CupCakeScreen.Summary.name) },
+                    options = cupcakestate.pickupOptions,
+                    onSelectionChanged = { date -> CupCakeModel.updatePickUpDate(date) },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }// end compoable route
+
+            composable(route = CupCakeScreen.Summary.name) {
+                OrderSummaryScreen(
+                    orderUiState = cupcakestate,
+                    onCancelButtonClicked = {},
+                    onSendButtonClicked = { subject: String, summary: String ->
+
+                    },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }// end of compose
         }
     }
 }
