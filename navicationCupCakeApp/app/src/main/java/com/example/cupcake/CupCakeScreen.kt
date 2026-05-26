@@ -2,21 +2,31 @@ package com.example.cupcake
 
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cupcake.data.DataSource
 import com.example.cupcake.ui.components.CupCakeViewModel
@@ -25,11 +35,11 @@ import com.example.cupcake.ui.components.SelectOptionScreen
 import com.example.cupcake.ui.components.StartOrderScreen
 import com.example.cupcake.ui.components.quantityOptions
 
-enum class CupCakeScreen(){
-    Start,
-    Flavor,
-    Pickup,
-    Summary
+enum class CupCakeScreen(@StringRes title:Int){
+    Start(title = R.string.app_name),
+    Flavor(title = R.string.choose_flavor),
+    Pickup(title = R.string.choose_pickup_date),
+    Summary(title = R.string.order_summary)
 }
 
 
@@ -57,13 +67,60 @@ private fun ShareOrder(
      context.startActivity(shareIntent)
 
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CupcakeAppBar(
+    currentScreen: CupCakeScreen,
+    canNavigateBack: Boolean,
+    navigateUp: () -> Unit = {},
+    modifier: Modifier = Modifier
+){
+    TopAppBar(
+        title = { Text(currentScreen.name) },
+        modifier = modifier,
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBackIosNew,
+                        contentDescription = stringResource(R.string.back_button)
+                    )
+                }
+            }
+        }
+    )
+}
 @Composable
 fun CupCakeApp(){
     val navController=rememberNavController()
     val CupCakeModel: CupCakeViewModel= viewModel()
     val cupcakestate by CupCakeModel.cupcakesate.collectAsState()
 
-    Scaffold() {contentPadding ->
+    /*
+    getting current navigation screen and
+    covert to state
+     */
+    val backStackEntry by navController.currentBackStackEntryAsState()
+
+    /*
+    it get current route backStackEntry?.destination?.route
+    if route is null ,get first enum nam
+    valueof() Convert to enum to String
+     */
+    val currentScreen = CupCakeScreen.valueOf(
+        backStackEntry?.destination?.route ?: CupCakeScreen.Start.name
+    )
+
+
+    Scaffold(
+        topBar = {
+            CupcakeAppBar(
+                currentScreen = currentScreen,
+                canNavigateBack =  navController.previousBackStackEntry != null,
+                navigateUp = {navController.navigateUp()}
+            )
+        }
+    ) {contentPadding ->
         NavHost(
           navController = navController,
           startDestination = CupCakeScreen.Start.name,
