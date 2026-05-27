@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedButton
@@ -23,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.cupcake.R
-import com.example.cupcake.ui.components.FormattedPriceLabel
 import com.example.cupcake.ui.theme.CupcakeTheme
 
 
@@ -73,15 +71,12 @@ fun OrderSummaryScreen(
             items.forEach { item ->
                 Text(item.first.uppercase())
                 Text(text = item.second, fontWeight = FontWeight.Bold)
-                items.forEach { item ->
-                    Text(item.first.uppercase())
-                    Text(text = item.second, fontWeight = FontWeight.Bold)
                     HorizontalDivider(
                         Modifier,
                         thickness = dimensionResource(R.dimen.thickness_divider),
                         color = DividerDefaults.color
                     )
-                }
+
             }//end of iteration
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
