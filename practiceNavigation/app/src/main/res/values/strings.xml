@@ -1,3 +1,51 @@
 <resources>
     <string name="app_name">lanchTrayWithNavigation</string>
+
+        <!-- Lunch Roll -->
+        <string name="accomplishment_lunch_roll_title">Lunch Roll</string>
+        <string name="accomplishment_lunch_roll_desc">Fresh baked roll made in house</string>
+        <string name="accomplishment_lunch_roll_price">$0.50</string>
+
+        <!-- Mixed Berries -->
+        <string name="accomplishment_mixed_berries_title">Mixed Berries</string>
+        <string name="accomplishment_mixed_berries_desc">Strawberries, blueberries, raspberries, and huckleberries</string>
+        <string name="accomplishment_mixed_berries_price">$1.00</string>
+
+        <!-- Pickled Veggies -->
+        <string name="accomplishment_pickled_veggies_title">Pickled Veggies</string>
+        <string name="accomplishment_pickled_veggies_desc">Pickled cucumbers and carrots, made in house</string>
+        <string name="accomplishment_pickled_veggies_price">$0.50</string>
+
+    <string name="sidedish_salad_title">Summer Salad</string>
+    <string name="sidedish_salad_description">Heirloom tomatoes, butter lettuce, peaches, avocado, balsamic dressing</string>
+    <string name="sidedish_salad_price">$2.50</string>
+
+    <string name="sidedish_soup_title">Butternut Squash Soup</string>
+    <string name="sidedish_soup_description">Roasted butternut squash, roasted peppers, chili oil</string>
+    <string name="sidedish_soup_price">$3.00</string>
+
+    <string name="sidedish_potatoes_title">Spicy Potatoes</string>
+    <string name="sidedish_potatoes_description">Marble potatoes, roasted, and fried in house spice blend</string>
+    <string name="sidedish_potatoes_price">$2.00</string>
+
+    <string name="sidedish_rice_title">Coconut Rice</string>
+    <string name="sidedish_rice_description">Rice, coconut milk, lime, and sugar</string>
+    <string name="sidedish_rice_price">$1.50</string>
+
+    <string name="entree_cauliflower_title">Cauliflower</string>
+    <string name="entree_cauliflower_description">Whole cauliflower, brined, roasted, and deep fried</string>
+    <string name="entree_cauliflower_price">$7.00</string>
+
+    <string name="entree_chili_title">Three Bean Chili</string>
+    <string name="entree_chili_description">Black beans, red beans, kidney beans, slow cooked, topped with onion</string>
+    <string name="entree_chili_price">$4.00</string>
+
+    <string name="entree_pasta_title">Mushroom Pasta</string>
+    <string name="entree_pasta_description">Penne pasta, mushrooms, basil, with plum tomatoes cooked in garlic and olive oil</string>
+    <string name="entree_pasta_price">$5.50</string>
+
+    <string name="entree_skillet_title">Spicy Black Bean Skillet</string>
+    <string name="entree_skillet_description">Seasonal vegetables, black beans, house spice blend, served with avocado and quick pickled onions</string>
+    <string name="entree_skillet_price">$5.50</string>
+
 </resources>
