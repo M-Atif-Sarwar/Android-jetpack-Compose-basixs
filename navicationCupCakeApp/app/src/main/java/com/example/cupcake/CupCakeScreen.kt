@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.ViewModel
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -33,7 +34,7 @@ import com.example.cupcake.ui.components.CupCakeViewModel
 import com.example.cupcake.ui.components.OrderSummaryScreen
 import com.example.cupcake.ui.components.SelectOptionScreen
 import com.example.cupcake.ui.components.StartOrderScreen
-import com.example.cupcake.ui.components.quantityOptions
+
 
 enum class CupCakeScreen(@StringRes title:Int){
     Start(title = R.string.app_name),
@@ -51,7 +52,7 @@ private fun cancelOrderAndNavigateToStart(
     navController.popBackStack(CupCakeScreen.Start.name, inclusive = false)
 }
 
-private fun ShareOrder(
+private fun shareOrder(
     context: Context,
     subject:String,
     summary:String,
@@ -75,6 +76,7 @@ fun CupcakeAppBar(
     navigateUp: () -> Unit = {},
     modifier: Modifier = Modifier
 ){
+    val context=LocalContext.current
     TopAppBar(
         title = { Text(currentScreen.name) },
         modifier = modifier,
@@ -86,6 +88,15 @@ fun CupcakeAppBar(
                         contentDescription = stringResource(R.string.back_button)
                     )
                 }
+            }
+
+        },
+        actions = {
+            IconButton(onClick ={shareOrder(context,subject = "test od share",summary="this is summary")}) {
+                Icon(
+                    imageVector = Icons.Filled.Share,
+                    contentDescription = stringResource(R.string.back_button)
+                )
             }
         }
     )
@@ -178,11 +189,17 @@ fun CupCakeApp(){
                         cancelOrderAndNavigateToStart(CupCakeModel, navController)
                     },
                     onSendButtonClicked = { subject: String, summary: String ->
-                         ShareOrder(context,subject,summary)
+                         shareOrder(context,subject,summary)
                     },
                     modifier = Modifier.fillMaxHeight()
                 )
             }// end of compose
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun CupCakScreenPreview(){
+    CupCakeApp()
 }
