@@ -1,6 +1,5 @@
 package com.example.lanchtraywithnavigation.data
 
-import androidx.compose.runtime.mutableStateOf
 
 data class Summary(
     var title:String ="",
@@ -10,5 +9,6 @@ data class Summary(
 data class DataStates(
     var subTotal: Double=0.0,
     val tax:Double = 10.0,
-    var summary:List<Summary>
+    var total: Double=0.0,
+    var summary: List<Summary> = emptyList()
 )
