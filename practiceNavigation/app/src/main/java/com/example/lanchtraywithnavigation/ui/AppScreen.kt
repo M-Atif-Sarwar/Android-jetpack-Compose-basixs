@@ -20,6 +20,7 @@ import com.example.lanchtraywithnavigation.ui.screen.StartScreen
 import com.example.lanchtraywithnavigation.viewmodel.AppViewModel
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import com.example.lanchtraywithnavigation.ui.screen.OrderSummaryScreen
 
 enum class AppRoutes {
     Start,
@@ -103,15 +104,16 @@ fun AppScreen(){
             }
 
             composable(route = AppRoutes.Checkout.name) {
-                OptionScreen(
-                    contentData = DataSource.accomplishmentList,
-                    onNextButton = {
-//                        navController.navigate((AppRoutes.Checkout))
-                    },
-                    onCancelButton = {
+                OrderSummaryScreen(
+                    appState=appStates,
+                    onCheckoutButton = {
                         navController.popBackStack(AppRoutes.Start.name, inclusive = false)
                     },
-                    onValueChange = { title, price -> }
+                    onCancelButton = {
+                        appModel.resetOrder()
+                        navController.popBackStack(AppRoutes.Start.name, inclusive = false)
+                    },
+
                 )
 
             }
