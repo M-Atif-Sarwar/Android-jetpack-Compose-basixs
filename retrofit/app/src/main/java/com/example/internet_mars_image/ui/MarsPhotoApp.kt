@@ -2,6 +2,7 @@
 
 package com.example.internet_mars_image.ui
 
+import android.text.Spannable
 import com.example.internet_mars_image.ui.screen.HomeScreen
 import com.example.internet_mars_image.viewmodel.MarsViewModel
 
@@ -36,7 +37,9 @@ fun MarsPhotosApp() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            val marsViewModel: MarsViewModel=viewModel()
+            val marsViewModel: MarsViewModel=viewModel(
+                factory = MarsViewModel.Factory
+            )
 
             HomeScreen(
                 marsUiState = marsViewModel.marsUiState,
