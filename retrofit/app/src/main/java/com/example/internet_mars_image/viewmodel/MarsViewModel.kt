@@ -39,7 +39,6 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotoRepository): View
              */
             marsUiState = try {
                 val listResult=marsPhotosRepository.getMarsPhoto()
-
                     MarsUiState.Success(listResult)
                } catch (e: IOException) {
                     MarsUiState.Error

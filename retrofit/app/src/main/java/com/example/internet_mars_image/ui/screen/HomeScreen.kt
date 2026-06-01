@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.internet_mars_image.R
+import com.example.internet_mars_image.network.MarsPhoto
 import com.example.internet_mars_image.viewmodel.MarsUiState
 
 // error screen
@@ -65,7 +66,7 @@ fun LoadingScreenPreview(){
 }
 
 @Composable
-fun ResultScreen(modifier: Modifier=Modifier,photo:String){
+fun ResultScreen(modifier: Modifier=Modifier,photo:List<MarsPhoto>){
     Column(modifier=modifier) {
         Text(text = photo)
     }
