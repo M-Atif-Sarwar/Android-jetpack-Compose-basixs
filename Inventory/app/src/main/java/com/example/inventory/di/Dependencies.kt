@@ -27,6 +27,6 @@ object InventoryDependencies{
     @Provides
     @Singleton
     fun getRepository(itemDoa: ItemDao): ItemRepositoryInterface{
-        ItemRepository(itemDoa)
+        return ItemRepository(itemDoa)
     }
 }
