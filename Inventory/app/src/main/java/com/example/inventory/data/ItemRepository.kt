@@ -1,9 +1,15 @@
 package com.example.inventory.data
 
-class ItemRepository: ItemRepositoryInterface {
-    override fun getAllItemsStream(): Flow<List<Item>> = itemDao.getAllItems()
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-    override fun getItemStream(id: Int): Flow<Item?> = itemDao.getItem(id)
+class ItemRepository @Inject constructor(
+    private val itemDao: ItemDao
+): ItemRepositoryInterface {
+
+    override suspend fun getAllItemsStream(): Flow<List<Item>> = itemDao.geAllItem()
+
+    override suspend fun getItemStream(id: Int): Flow<Item> = itemDao.getItem(id)
 
     override suspend fun insertItem(item: Item) = itemDao.insert(item)
 

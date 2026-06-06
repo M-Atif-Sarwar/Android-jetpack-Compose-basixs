@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.Flow
 interface ItemRepositoryInterface {
 
     //get all item
-    suspend fun getAllItemStream(): Flow<List<Item>>
+    suspend fun getAllItemsStream(): Flow<List<Item>>
 
 //    get single item
-    suspend fun getItemStream(item:Int): Flow<Item>
+    suspend fun getItemStream(id:Int): Flow<Item>
 
     //insert item
     suspend fun insertItem(item:Item)
