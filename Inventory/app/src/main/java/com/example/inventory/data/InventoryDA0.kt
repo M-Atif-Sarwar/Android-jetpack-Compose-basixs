@@ -19,13 +19,12 @@ interface ItemDao{
     suspend fun update(item: Item)
 
     @Delete
-    suspend fun delete(item: Item)
+    fun delete(item: Item)
 
     @Query("SELECT * FROM items WHERE id=:id")
-    suspend fun getItem(id:Int) : Flow<Item>
+    fun getItem(id:Int) : Flow<Item>
 
     @Query("SELECT * FROM items  ORDER BY name ASC")
-    suspend fun geAllItem() : Flow<List<Item>>
-
+    fun geAllItem() : Flow<List<Item>>
 
 }

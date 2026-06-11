@@ -7,9 +7,9 @@ class ItemRepository @Inject constructor(
     private val itemDao: ItemDao
 ): ItemRepositoryInterface {
 
-    override suspend fun getAllItemsStream(): Flow<List<Item>> = itemDao.geAllItem()
+    override fun getAllItemsStream(): Flow<List<Item>> = itemDao.geAllItem()
 
-    override suspend fun getItemStream(id: Int): Flow<Item> = itemDao.getItem(id)
+    override fun getItemStream(id: Int): Flow<Item> = itemDao.getItem(id)
 
     override suspend fun insertItem(item: Item) = itemDao.insert(item)
 
