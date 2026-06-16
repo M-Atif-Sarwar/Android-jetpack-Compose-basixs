@@ -4,14 +4,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.inventory.data.Item
 import com.example.inventory.data.ItemRepository
 import com.example.inventory.data.ItemRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.text.NumberFormat
 import javax.inject.Inject
 import kotlin.Int
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 data class ItemDetails(
     val id: Int = 0,
@@ -72,20 +77,34 @@ class ItemEntryViewModel @Inject constructor(
     private val dataRepository: ItemRepositoryInterface
 ): ViewModel(){
 
-    var itemUiState by mutableStateOf(ItemUiState())
-        private set
+    private var _itemUiState = MutableStateFlow(ItemUiState())
+    val itemUiState=_itemUiState.asStateFlow()
 
-    private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
+    private fun validateInput(uiState: ItemDetails = _itemUiState.value.itemDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
         }
     }
-        suspend fun saveItem() {
-           if(validateInput()){
-               dataRepository.insertItem(itemUiState.itemDetails.toItem())
-           }
+        fun saveItem(onComplete:()->Unit = {}) {
+            viewModelScope.launch {
+            if (validateInput()) {
+                dataRepository.insertItem(_itemUiState.value.itemDetails.toItem())
+                _itemUiState.value = ItemUiState()
+                onComplete()
+            }
 
         }
+
+        }
+
+    fun updateUIState(itemDetails: ItemDetails){
+          _itemUiState.update {currentState ->
+              currentState.copy(
+                  itemDetails=itemDetails,
+                  isEntryValid = validateInput(itemDetails)
+              )
+          }
+    }
 
 
 }
