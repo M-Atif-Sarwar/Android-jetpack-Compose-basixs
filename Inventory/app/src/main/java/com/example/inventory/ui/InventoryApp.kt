@@ -8,19 +8,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.inventory.ui.screens.EntryScreen
 import com.example.inventory.ui.viewmodel.ItemDetails
 
 @Composable
-fun InventoryApp(){
-    val newText="Atif"
-    Scaffold() {innerPadding ->
-        Column(
-            modifier=Modifier.padding(innerPadding)
-                .safeDrawingPadding()
-                .fillMaxSize()
-        ) {
-            EntryScreen()
-        }
-    }
+fun InventoryApp(navController: NavHostController = rememberNavController()) {
+    InventoryNavigation(navController = navController)
 }

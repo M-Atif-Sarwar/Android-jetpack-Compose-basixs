@@ -26,8 +26,15 @@ import com.example.inventory.ui.viewmodel.ItemEntryViewModel
 import java.util.Currency
 import java.util.Locale
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.inventory.ui.NavigationDestinationInterface
 
+object EntryScreenDestination: NavigationDestinationInterface{
+    override val route: String
+        get() = "itemEntry"
 
+    override val title: String
+        get() = "Add Inventory"
+}
 @Composable
 fun EntryScreen(
     modifier:Modifier=Modifier,

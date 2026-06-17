@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.inventory.ui.InventoryApp
+import com.example.inventory.ui.screens.HomeScreen
 import com.example.inventory.ui.theme.InventoryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
